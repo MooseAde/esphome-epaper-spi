@@ -24,8 +24,7 @@ class WaveshareModel(EpaperModel):
         else:
             lut_partial = (
                 cg.static_const_array(
-                    self.initpartial,
-                    self.lut_partial,
+                    ID(config[CONF_INIT_SEQUENCE_ID].id + "_lut_partial", type=cg.uint8), self.lut_partial
                 ),
                 len(self.lut_partial),
             )
