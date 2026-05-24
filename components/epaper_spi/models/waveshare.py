@@ -35,7 +35,7 @@ class WaveshareModel(EpaperModel):
         else:
             initsequencefull = self.initsequencefull
             initsequencefull_length = len(self.initsequencefull)
-        return *lut, *lut_partial, *initsequencefull, *initsequencefull_length
+        return *lut, *lut_partial, *initsequencefull, initsequencefull_length
     
 # fmt: off
 WaveshareModel(
