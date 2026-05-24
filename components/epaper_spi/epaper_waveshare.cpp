@@ -8,12 +8,12 @@ bool EpaperWaveshare::initialise(bool partial) {
 
   if (partial) {
     // Send partial init sequence, as defined in waveharemodel.initsequence property
-    // EPaperBase::initialise(partial);
+    EPaperBase::initialise(partial);
     this->cmd_data(0x32, this->partial_lut_, this->partial_lut_length_);
-    this->cmd_data(0x37, {0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00});
-    this->cmd_data(0x11, {0x03});  // Set data entry mode to Y increment, X increment
-    this->cmd_data(0x44, {0x01, (uint8_t) ((this->width_ % 8 == 0)? (this->width_ / 8 ): (this->width_ / 8 + 1))}); // Set RAM X start/end
-    this->cmd_data(0x45, {(uint8_t) 0, (uint8_t) 0, (uint8_t) (this->height_ & 0xFF), (uint8_t) ((this->height_ & 0x100) >> 8)});  // Set RAM Y start/end 
+    // this->cmd_data(0x37, {0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00, 0x00});
+    // this->cmd_data(0x11, {0x03});  // Set data entry mode to Y increment, X increment
+    // this->cmd_data(0x44, {0x01, (uint8_t) ((this->width_ % 8 == 0)? (this->width_ / 8 ): (this->width_ / 8 + 1))}); // Set RAM X start/end
+    // this->cmd_data(0x45, {(uint8_t) 0, (uint8_t) 0, (uint8_t) (this->height_ & 0xFF), (uint8_t) ((this->height_ & 0x100) >> 8)});  // Set RAM Y start/end 
     this->cmd_data(0x3C, {0x80});
     this->cmd_data(0x22, {0xCf});
     this->command(0x20);
@@ -21,15 +21,12 @@ bool EpaperWaveshare::initialise(bool partial) {
   } else {
     // Send Full init sequence as defined in waveharemodel.initsequencefull property
     // SEE commented code below from 2.66in example
-    if (EPaperBase::reset()) {
-      this->command(0x12);
-    }
     this->cmd_data(0x11, {0x03});  // Set data entry mode to Y increment, X increment
     this->cmd_data(0x44, {0x01, (uint8_t) ((this->width_ % 8 == 0)? (this->width_ / 8 ): (this->width_ / 8 + 1))}); // Set RAM X start/end
     this->cmd_data(0x45, {(uint8_t) 0, (uint8_t) 0, (uint8_t) (this->height_ & 0xFF), (uint8_t) ((this->height_ & 0x100) >> 8)});  // Set RAM Y start/end
-    this->cmd_data(0x3C, {0x01});
+    this->cmd_data(0x3C, {0x05});
   }
-  this->send_red_ = true;
+  this->send_red_ = false;
   return true;
 }
 
