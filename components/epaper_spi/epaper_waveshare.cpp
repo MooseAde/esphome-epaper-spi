@@ -5,14 +5,18 @@ namespace esphome::epaper_spi {
 static const char *const TAG = "epaper_spi.waveshare";
 
 bool EpaperWaveshare::initialise(bool partial) {
-  EPaperBase::initialise(partial);
+
   if (partial) {
+    // Send partial init sequence, as defined in waveharemodel.initsequence property
+    EPaperBase::initialise(partial);
     this->cmd_data(0x32, this->partial_lut_, this->partial_lut_length_);
     this->cmd_data(0x3C, {0x80});
     this->cmd_data(0x22, {0xCf});
     this->command(0x20);
     this->next_delay_ = 100;
   } else {
+    // Send Full init sequence as defined in waveharemodel.initsequencefull property
+    EPaperBase::send_init_sequence_(this->initsequencefull_, this->initsequencfull_length_);
     // Full Init does not require sending the LUT
     // this->cmd_data(0x32, this->lut_, this->lut_length_);
     this->cmd_data(0x3C, {0x01});

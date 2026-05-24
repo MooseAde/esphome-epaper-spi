@@ -10,12 +10,14 @@ class EpaperWaveshare final : public EPaperMono {
  public:
   EpaperWaveshare(const char *name, uint16_t width, uint16_t height, const uint8_t *init_sequence,
                   size_t init_sequence_length, const uint8_t *lut, size_t lut_length, const uint8_t *partial_lut,
-                  uint16_t partial_lut_length)
+                  uint16_t partial_lut_length, const uint8_t *initsequencefull, uint16_t initsequencfull_length)
       : EPaperMono(name, width, height, init_sequence, init_sequence_length),
         lut_(lut),
         lut_length_(lut_length),
         partial_lut_(partial_lut),
-        partial_lut_length_(partial_lut_length) {}
+        partial_lut_length_(partial_lut_length),
+        initsequencefull_(initsequencefull),
+        initsequencfull_length_(initsequencfull_length) {}
 
  protected:
   bool initialise(bool partial) override;
@@ -26,5 +28,7 @@ class EpaperWaveshare final : public EPaperMono {
   size_t lut_length_;
   const uint8_t *partial_lut_;
   uint16_t partial_lut_length_;
+  const uint8_t *initsequencefull_;
+  uint16_t initsequencfull_length_;
 };
 }  // namespace esphome::epaper_spi

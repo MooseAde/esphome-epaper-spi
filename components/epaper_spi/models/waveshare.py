@@ -6,11 +6,11 @@ from . import EpaperModel
 
 
 class WaveshareModel(EpaperModel):
-    def __init__(self, name, lut, lut_partial=None, initpartial=None, **defaults):
+    def __init__(self, name, lut, lut_partial=None, initsequencefull=None, **defaults):
         super().__init__(name, "EpaperWaveshare", **defaults)
         self.lut = lut
         self.lut_partial = lut_partial
-        self.initpartial = initpartial
+        self.initsequencefull = initsequencefull
 
     def get_constructor_args(self, config) -> tuple:
         lut = (
@@ -29,29 +29,22 @@ class WaveshareModel(EpaperModel):
                 ),
                 len(self.lut_partial),
             )
-        initpartial = self.initpartial
-        return *lut, *lut_partial, *initpartial
+        return *lut, *lut_partial
     
 # fmt: off
 WaveshareModel(
     "waveshare-2.66in",
     width=152,
     height=296,
-    initpartial=(
+    initsequence=(
         (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
         (0x11, 0x03),  # Data entry mode
     ),
-    initsequence=(
-        # Partial only
-        # (0x01, 0x27, 0x01, 0x00),  # driver output control
-        # (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
+    initsequencefull=(
         (0x11, 0x03),  # Data entry mode
-        # (0x3F, 0x22),  # Undocumented command
         (0x2C, 0x36),  # write VCOM register
         (0x04, 0x41, 0x00, 0x32),  # SRC voltage
         (0x03, 0x17),  # Gate voltage
-        # (0x21, 0x00, 0x80),  # Display update control
-        # (0x18, 0x80),  # Select internal temperature sensor
     ),
     lut=(
         0x80, 0x4A, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
