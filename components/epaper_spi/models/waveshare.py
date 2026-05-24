@@ -29,17 +29,19 @@ class WaveshareModel(EpaperModel):
                 len(self.lut_partial),
             )
         return *lut, *lut_partial
-
-initpartial=(
-   (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
-   (0x11, 0x03),  # Data entry mode
-)
+    
+    def initpartial(self):
+        return self.initpartial
 
 # fmt: off
 WaveshareModel(
     "waveshare-2.66in",
     width=152,
     height=296,
+    initpartial=(
+        (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
+        (0x11, 0x03),  # Data entry mode
+    ),
     initsequence=(
         # Partial only
         # (0x01, 0x27, 0x01, 0x00),  # driver output control
