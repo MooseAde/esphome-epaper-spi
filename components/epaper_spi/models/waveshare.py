@@ -12,7 +12,7 @@ class WaveshareModel(EpaperModel):
         self.lut_partial = lut_partial
         self.initsequencefull = initsequencefull
         self.initsequencefull_length = initsequencefull_length
-        
+
     def get_constructor_args(self, config) -> tuple:
         lut = (
             cg.static_const_array(
@@ -35,7 +35,7 @@ class WaveshareModel(EpaperModel):
         else:
             initsequencefull = self.initsequencefull
             initsequencefull_length = len(self.initsequencefull)
-        return *lut, *lut_partial, *initsequencefull, initsequencefull_length
+        return *lut, *lut_partial, *initsequencefull, *initsequencefull_length
     
 # fmt: off
 WaveshareModel(
