@@ -6,10 +6,11 @@ from . import EpaperModel
 
 
 class WaveshareModel(EpaperModel):
-    def __init__(self, name, lut, lut_partial=None, **defaults):
+    def __init__(self, name, lut, lut_partial=None, initpartial=None, **defaults):
         super().__init__(name, "EpaperWaveshare", **defaults)
         self.lut = lut
         self.lut_partial = lut_partial
+        self.initpartial = initpartial
 
     def get_constructor_args(self, config) -> tuple:
         lut = (
@@ -30,8 +31,6 @@ class WaveshareModel(EpaperModel):
             )
         return *lut, *lut_partial
     
-    def initpartial(self) -> tuple:
-        return self.initpartial
 
 # fmt: off
 WaveshareModel(
