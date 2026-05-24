@@ -27,8 +27,8 @@ class EpaperWaveshare final : public EPaperMono {
   const uint8_t *lut_;
   size_t lut_length_;
   const uint8_t *partial_lut_;
-  uint16_t partial_lut_length_;
+  size_t partial_lut_length_;
   const uint8_t *initsequencefull_;
-  uint16_t initsequencfull_length_;
+  size_t initsequencefull_length_;
 };
 }  // namespace esphome::epaper_spi
