@@ -29,9 +29,9 @@ class WaveshareModel(EpaperModel):
                 ),
                 len(self.lut_partial),
             )
-        return *lut, *lut_partial
+        initpartial = self.initpartial
+        return *lut, *lut_partial, *initpartial
     
-
 # fmt: off
 WaveshareModel(
     "waveshare-2.66in",
