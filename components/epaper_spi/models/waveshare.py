@@ -30,7 +30,7 @@ class WaveshareModel(EpaperModel):
             )
         return *lut, *lut_partial
     
-    def initpartial(self):
+    def initpartial(self) -> tuple:
         return self.initpartial
 
 # fmt: off
