@@ -16,7 +16,8 @@ bool EpaperWaveshare::initialise(bool partial) {
     this->next_delay_ = 100;
   } else {
     // Send Full init sequence as defined in waveharemodel.initsequencefull property
-    EPaperBase::send_init_sequence_(this->initsequencefull_, this->initsequencefull_length_);
+    // EPaperBase::send_init_sequence_(this->initsequencefull_, this->initsequencefull_length_);
+    EPaperBase::initialise(partial);
     // Full Init does not require sending the LUT
     // this->cmd_data(0x32, this->lut_, this->lut_length_);
     this->cmd_data(0x3C, {0x01});
