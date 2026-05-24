@@ -30,12 +30,20 @@ class WaveshareModel(EpaperModel):
                 len(self.lut_partial),
             )
         if self.initsequencefull is None:
-            initsequencefull = cg.nullptr
-            initsequencefull_length = 0
+            initsequencefull = cg.nullptr, 0
         else:
-            initsequencefull = self.initsequencefull
-            initsequencefull_length = len(self.initsequencefull)
-        return *lut, *lut_partial, *initsequencefull, initsequencefull_length
+            # Flatten initsequencefull to a list of integers if it's nested
+            if self.initsequencefull and isinstance(self.initsequencefull[0], (tuple, list)):
+                flat_initsequencefull = [item for sublist in self.initsequencefull for item in sublist]
+            else:
+                flat_initsequencefull = list(self.initsequencefull)
+            initsequencefull = (
+                cg.static_const_array(
+                    ID(config[CONF_INIT_SEQUENCE_ID].id + "_initsequencefull", type=cg.uint8), flat_initsequencefull
+                ),
+                len(flat_initsequencefull),
+            )
+        return *lut, *lut_partial, *initsequencefull
     
 # fmt: off
 WaveshareModel(
