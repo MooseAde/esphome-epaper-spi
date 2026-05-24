@@ -10,7 +10,7 @@ class EpaperWaveshare final : public EPaperMono {
  public:
   EpaperWaveshare(const char *name, uint16_t width, uint16_t height, const uint8_t *init_sequence,
                   size_t init_sequence_length, const uint8_t *lut, size_t lut_length, const uint8_t *partial_lut,
-                  uint16_t partial_lut_length, const uint8_t *initsequencefull, uint16_t initsequencefull_length)
+                  size_t partial_lut_length, const uint8_t *initsequencefull, size_t initsequencefull_length)
       : EPaperMono(name, width, height, init_sequence, init_sequence_length),
         lut_(lut),
         lut_length_(lut_length),
