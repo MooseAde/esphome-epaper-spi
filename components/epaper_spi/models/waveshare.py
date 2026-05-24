@@ -30,7 +30,7 @@ class WaveshareModel(EpaperModel):
                 len(self.lut_partial),
             )
         if self.initsequencefull is None:
-            initsequencefull = cg.nullptr, 0
+            initsequencefull = cg.nullptr
             initsequencefull_length = 0
         else:
             initsequencefull = self.initsequencefull
@@ -46,11 +46,17 @@ WaveshareModel(
         (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
         (0x11, 0x03),  # Data entry mode
     ),
+    # initsequencefull=(
+    #     (0x11, 0x03),  # Data entry mode
+    #     (0x2C, 0x36),  # write VCOM register
+    #     (0x04, 0x41, 0x00, 0x32),  # SRC voltage
+    #     (0x03, 0x17),  # Gate voltage
+    # ),
     initsequencefull=(
-        (0x11, 0x03),  # Data entry mode
-        (0x2C, 0x36),  # write VCOM register
-        (0x04, 0x41, 0x00, 0x32),  # SRC voltage
-        (0x03, 0x17),  # Gate voltage
+        0x11, 0x03,  # Data entry mode
+        0x2C, 0x36,  # write VCOM register
+        0x04, 0x41, 0x00, 0x32,  # SRC voltage
+        0x03, 0x17,  # Gate voltage
     ),
     lut=(
         0x80, 0x4A, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
