@@ -6,12 +6,13 @@ from . import EpaperModel
 
 
 class WaveshareModel(EpaperModel):
-    def __init__(self, name, lut, lut_partial=None, initsequencefull=None, **defaults):
+    def __init__(self, name, lut, lut_partial=None, initsequencefull=None, initsequencefull_length=None, **defaults):
         super().__init__(name, "EpaperWaveshare", **defaults)
         self.lut = lut
         self.lut_partial = lut_partial
         self.initsequencefull = initsequencefull
-
+        self.initsequencefull_length = initsequencefull_length
+        
     def get_constructor_args(self, config) -> tuple:
         lut = (
             cg.static_const_array(
@@ -28,7 +29,13 @@ class WaveshareModel(EpaperModel):
                 ),
                 len(self.lut_partial),
             )
-        return *lut, *lut_partial
+        if self.initsequencefull is None:
+            initsequencefull = cg.nullptr, 0
+            initsequencefull_length = 0
+        else:
+            initsequencefull = self.initsequencefull
+            initsequencefull_length = len(self.initsequencefull)
+        return *lut, *lut_partial, *initsequencefull, initsequencefull_length
     
 # fmt: off
 WaveshareModel(
