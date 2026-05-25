@@ -6,12 +6,10 @@ from . import EpaperModel
 
 
 class WaveshareModel(EpaperModel):
-    def __init__(self, name, lut, lut_partial=None, initsequencefull=None, initsequencefull_length=None, **defaults):
+    def __init__(self, name, lut, lut_partial=None, **defaults):
         super().__init__(name, "EpaperWaveshare", **defaults)
         self.lut = lut
         self.lut_partial = lut_partial
-        self.initsequencefull = initsequencefull
-        self.initsequencefull_length = initsequencefull_length
 
     def get_constructor_args(self, config) -> tuple:
         lut = (
@@ -25,46 +23,31 @@ class WaveshareModel(EpaperModel):
         else:
             lut_partial = (
                 cg.static_const_array(
-                    ID(config[CONF_INIT_SEQUENCE_ID].id + "_lut_partial", type=cg.uint8), self.lut_partial
+                    ID(
+                        config[CONF_INIT_SEQUENCE_ID].id + "_lut_partial", type=cg.uint8
+                    ),
+                    self.lut_partial,
                 ),
                 len(self.lut_partial),
             )
-        if self.initsequencefull is None:
-            initsequencefull = cg.nullptr, 0
-        else:
-            # Flatten initsequencefull to a list of integers if it's nested
-            if self.initsequencefull and isinstance(self.initsequencefull[0], (tuple, list)):
-                flat_initsequencefull = [item for sublist in self.initsequencefull for item in sublist]
-            else:
-                flat_initsequencefull = list(self.initsequencefull)
-            initsequencefull = (
-                cg.static_const_array(
-                    ID(config[CONF_INIT_SEQUENCE_ID].id + "_initsequencefull", type=cg.uint8), flat_initsequencefull
-                ),
-                len(flat_initsequencefull),
-            )
-        return *lut, *lut_partial, *initsequencefull
-    
+        return *lut, *lut_partial
+
+
 # fmt: off
 WaveshareModel(
-    "waveshare-2.66in",
-    width=152,
-    height=296,
+    "waveshare-2.13in-v3",
+    width=122,
+    height=250,
     initsequence=(
+        (0x01, 0x27, 0x01, 0x00),  # driver output control
         (0x37, 0x00, 0x00, 0x00, 0x00, 0x00, 0x40, 0x00, 0x00, 0x00, 0x00),
         (0x11, 0x03),  # Data entry mode
-    ),
-    # initsequencefull=(
-    #     (0x11, 0x03),  # Data entry mode
-    #     (0x2C, 0x36),  # write VCOM register
-    #     (0x04, 0x41, 0x00, 0x32),  # SRC voltage
-    #     (0x03, 0x17),  # Gate voltage
-    # ),
-    initsequencefull=(
-        (0x11, 0x03,  # Data entry mode
-        0x2C, 0x36,  # write VCOM register
-        0x04, 0x41, 0x00, 0x32,  # SRC voltage
-        0x03, 0x17,)  # Gate voltage
+        (0x3F, 0x22),  # Undocumented command
+        (0x2C, 0x36),  # write VCOM register
+        (0x04, 0x41, 0x0C, 0x32),  # SRC voltage
+        (0x03, 0x17),  # Gate voltage
+        (0x21, 0x00, 0x80),  # Display update control
+        (0x18, 0x80),  # Select internal temperature sensor
     ),
     lut=(
         0x80, 0x4A, 0x40, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0,
@@ -103,4 +86,3 @@ WaveshareModel(
         0x0, 0x0, 0x0,
     ),
 )
-
